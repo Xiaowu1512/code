@@ -1,0 +1,66 @@
+import java.util.Scanner;
+
+public class exp8 {
+    public static void main(String[] args){
+        System.out.println("请输入要查询的年份(请不要输入1900年之前的年份)");
+        Scanner input=new Scanner(System.in);
+        year=input.nextInt();
+        for(month=1;month<13;month++){
+            System.out.println(year+"年"+month+"月");
+            show();
+            System.out.println();
+        }
+    }
+    public static int year;
+    public static int month;
+    public static int getDaysFrom1900() {
+        int days = 0;
+        for (int i = 1900; i < year; i++) {
+            days += isLeapYear(i) ? 366 : 365;
+        }
+        for (int i = 1; i < month; i++) {
+            days += getDaysFromMonth(i);
+        }
+        return days;
+    }
+    private static int getDaysFromMonth(int month) {
+        switch (month) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                return 31;
+            case 2:
+                return isLeapYear(year) ? 29 : 28;
+            default:
+                return 30;
+        }
+    }
+
+    private static boolean isLeapYear(int year) {
+        return (year % 4 == 0 && year % 100 != 0 || year % 400 == 0);
+    }
+    public static void show() {
+        int totalDays = getDaysFrom1900();
+        int daysOfMonth = getDaysFromMonth(month);
+        int space = totalDays % 7;
+        int count = 0;
+        System.out.println("一\t二\t三\t四\t五\t六\t日");
+        System.out.println("==========================");
+        for (int i = 0; i < space; i++) {
+            count++;
+            System.out.print("\t");
+        }
+        for (int i = 1; i <= daysOfMonth; i++) {
+            count++;
+            System.out.print(i + "\t");
+            if (count % 7 == 0) {
+                count = 0;
+                System.out.println();
+            }
+        }
+    }
+}
